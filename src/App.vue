@@ -2,6 +2,10 @@
   <div id="flashMessage" v-if="GStore.flashMessage">
     {{ GStore.flashMessage }}
   </div>
+  <div id="flash_editMessage" v-if="GStore.flash_editMessage">
+    {{ GStore.flash_editMessage }}
+  </div>
+
   <div id="nav">
     <router-link :to="{ name: 'EventList' }">Home</router-link> |
     <router-link :to="{ name: 'About' }">About</router-link>
@@ -25,8 +29,22 @@ export default {
     background: transparent;
   }
 }
+
+@keyframes orangefade {
+  from {
+    background: #b99942;
+  }
+  to {
+    background: transparent;
+  }
+}
 #flashMessage {
   animation-name: yellowfade;
+  animation-duration: 3s;
+}
+
+#flash_editMessage {
+  animation-name: orangefade;
   animation-duration: 3s;
 }
 
