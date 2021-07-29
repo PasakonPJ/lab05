@@ -29,6 +29,7 @@
 import EventCard from '@/components/EventCard.vue'
 import EventService from '@/services/EventService.js'
 import { watchEffect } from '@vue/runtime-core'
+// import NProgress from 'nprogress'
 // import axios from 'axios'
 export default {
   name: 'EventList',
@@ -59,6 +60,30 @@ export default {
         })
     })
   },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    EventService.getEvents(2, parseInt(routeTo.query.page) || 1)
+      .then((response) => {
+        next((comp) => {
+          comp.events = response.data
+          comp.totalEvents = response.headers['x-total-count']
+        })
+      })
+      .catch(() => {
+        // this.$router.push({name: 'NetworkError'})
+        next({ name: 'NetworkError' })
+      })
+  },
+  // beforeUpdate(routeTo, routeFrom, next) {
+  //   EventService.getEvents(2, parseInt(routeTo.query.page) || 1)
+  //     .then((response) => {
+  //       this.events = response.data
+  //       this.totalEvents = response.headers['x-total-count'] // <--- Store it
+  //       next()
+  //     })
+  //     .catch(() => {
+  //       next({ name: 'NetworkError' })
+  //     })
+  // },
   computed: {
     hasNextPage() {
       // First, calculate total pages
